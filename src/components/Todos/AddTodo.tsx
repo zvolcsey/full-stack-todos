@@ -15,6 +15,7 @@ export default function AddTodo({ onAddTodo }: AddTodoProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (newTodo.trim() === "") return;
     onAddTodo(newTodo);
     // Clear the input field after adding new todo
     setNewTodo("");
