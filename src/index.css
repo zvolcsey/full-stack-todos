@@ -1,11 +1,16 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color-scheme: dark;
+
+  --surface-1: #242424;
+  --surface-2: #363636;
+  --primary-color: #4f07c2;
+  --text-1: #eee;
+
+  color: var(--text-1);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -20,13 +25,29 @@
 }
 
 body {
+  background-color: var(--surface-1);
   min-width: 320px;
   min-height: 100vh;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
+#root {
+  display: grid;
+  min-height: 100vh;
+  grid-template-rows: auto 1fr auto;
+}
+
+input,
+button {
+  font: inherit;
+  color: inherit;
+}
+
+.btn {
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  padding: 0.8rem 1.2rem;
+  border-radius: 16px;
+  font-weight: 700;
+  transition: background-color 0.3s ease;
 }

@@ -1,0 +1,42 @@
+.todo-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.todo-item .left {
+  display: flex;
+  align-items: center;
+  gap: 2ch;
+}
+
+.todo-item input[type="checkbox"] {
+  cursor: pointer;
+  width: 1.2rem;
+  height: 1.2rem;
+  accent-color: var(--primary-color);
+  flex-shrink: 0;
+}
+
+.todo-item input[type="checkbox"]:checked + span {
+  text-decoration: line-through;
+}
+
+.todo-item span {
+  font-size: 1.2rem;
+  line-clamp: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.deleteButton {
+  background-color: #c70404;
+}
+
+.deleteButton:hover,
+.deleteButton:active {
+  background-color: #910505;
+}

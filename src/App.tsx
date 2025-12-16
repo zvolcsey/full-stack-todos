@@ -4,6 +4,8 @@ import TodoList from "./components/Todos/TodoList";
 import { v4 as uuidv4 } from "uuid";
 import type { Todo } from "./app/types";
 
+import styles from "./App.module.css";
+
 export default function App() {
   const [todos, setTodos] = useState<Todo[]>([]);
 
@@ -71,8 +73,10 @@ export default function App() {
         <h1>React Todos</h1>
       </header>
       <main>
-        <AddTodo onAddTodo={handleAddTodo} />
-        <section>
+        <section aria-label="Add new todo">
+          <AddTodo onAddTodo={handleAddTodo} />
+        </section>
+        <section className={`${styles.todos}`}>
           <h2>Todos</h2>
           {todosContent}
         </section>

@@ -1,5 +1,7 @@
 import type { Todo } from "../../app/types";
 
+import styles from "./TodoItem.module.css";
+
 interface TodoItemProps {
   todo: Todo;
   onToggleCompletion: (id: string) => void;
@@ -14,14 +16,21 @@ export default function TodoItem({
   const { id, title, isCompleted } = todo;
 
   return (
-    <li>
-      <input
-        type="checkbox"
-        checked={isCompleted}
-        onChange={() => onToggleCompletion(id)}
-      />
-      <span>{title}</span>
-      <button onClick={() => onDelete(id)}>Delete</button>
+    <li className={`${styles["todo-item"]}`}>
+      <div className={`${styles.left}`}>
+        <input
+          type="checkbox"
+          checked={isCompleted}
+          onChange={() => onToggleCompletion(id)}
+        />
+        <span>{title}</span>
+      </div>
+      <button
+        className={`btn ${styles.deleteButton}`}
+        onClick={() => onDelete(id)}
+      >
+        Delete
+      </button>
     </li>
   );
 }

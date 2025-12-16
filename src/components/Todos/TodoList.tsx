@@ -1,6 +1,8 @@
 import TodoItem from "./TodoItem";
 import type { Todo } from "../../app/types";
 
+import styles from "./TodoList.module.css";
+
 interface TodoListProps {
   todos: Todo[];
   onToggleTodoCompletion: (id: string) => void;
@@ -13,7 +15,7 @@ export default function TodoList({
   onDeleteTodo,
 }: TodoListProps) {
   return (
-    <ul>
+    <ul className={`${styles["todo-list"]}`}>
       {todos.map((todo) => (
         <TodoItem
           key={todo.id}

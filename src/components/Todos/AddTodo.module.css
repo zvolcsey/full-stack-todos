@@ -1,0 +1,42 @@
+.add-todo-form {
+  padding: 1rem;
+}
+
+.form-group {
+  display: grid;
+  gap: 0.5cap;
+  margin-bottom: 1rem;
+}
+
+.add-todo-form label {
+  font-weight: 700;
+  text-transform: uppercase;
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+}
+
+.add-todo-form input {
+  width: 100%;
+  margin: 0 auto;
+  padding: 1ex 2ex;
+  font-size: 1.2rem;
+  background-color: var(--surface-2);
+  border: 1px solid var(--text-1);
+  border-radius: 16px;
+}
+
+.add-todo-form button {
+  width: 100%;
+  background-color: var(--primary-color);
+}
+
+.add-todo-form button:hover,
+.add-todo-form button:active {
+  background-color: #3a068d;
+}
+
+@media (min-width: 768px) {
+  .add-todo-form {
+    padding: 1rem 3rem;
+  }
+}

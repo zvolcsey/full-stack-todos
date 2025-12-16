@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import styles from "./AddTodo.module.css";
+
 interface AddTodoProps {
   onAddTodo: (title: string) => void;
 }
@@ -19,15 +21,18 @@ export default function AddTodo({ onAddTodo }: AddTodoProps) {
   };
 
   return (
-    <form>
-      <label htmlFor="add-todo">New Todo</label>
-      <input
-        type="text"
-        id="add-todo"
-        value={newTodo}
-        onChange={handleNewTodo}
-      />
-      <button type="submit" onClick={handleSubmit}>
+    <form className={styles["add-todo-form"]}>
+      <div className={styles["form-group"]}>
+        <label htmlFor="add-todo">Todo Name</label>
+        <input
+          type="text"
+          id="add-todo"
+          autoFocus
+          value={newTodo}
+          onChange={handleNewTodo}
+        />
+      </div>
+      <button type="submit" className="btn" onClick={handleSubmit}>
         Add New Todo
       </button>
     </form>
