@@ -74,10 +74,20 @@ Api docs available at http://localhost:3000/api-docs/v1
 
 ## Project Maintenance
 
-[Server]: Dependency Hygiene
+This project follows best practices to ensure maintainability, stability, and security:
 
-A temporary override was added to patch a vulnerability in Prisma's internal use of Hono.
-Once Prisma shipped their official fix (7.3.0), the override will be removed.
+- Dependencies are regularly monitored and kept up-to-date.
+- Minor and patch updates are applied after verification and testing.
+- Major updates are planned and tested in separate branches before merging.
+- Temporary overrides are avoided whenever possible. The only current override is for `swagger-ui-dist`, as recommended by the Swagger Express documentation.
+- Previous temporary overrides, such as for Hono, have been removed after upstream fixes.
+
+Future updates follow this workflow:
+
+1. Run `npm outdated` monthly.
+2. Update minor/patch versions.
+3. Test the app.
+4. Commit changes with descriptive messages.
 
 ## License
 
