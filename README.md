@@ -9,7 +9,8 @@ Add, complete, and delete todos with localStorage persistence.
 2. [Features](#features)
 3. [Tech Stack](#tech-stack)
 4. [Run Locally](#run-locally)
-5. [License](#license)
+5. [Project Maintenance](#project-maintenance)
+6. [License](#license)
 
 ## Live Site
 
@@ -70,6 +71,13 @@ Coming soon...
 Client availabe at http://localhost:5173
 Api v1 available at http://localhost:3000/api/v1
 Api docs available at http://localhost:3000/api-docs/v1
+
+## Project Maintenance
+
+[Server]: Dependency Hygiene
+
+A temporary override was added to patch a vulnerability in Prisma’s internal use of Hono.
+Once Prisma shipped their official fix (7.3.0), the override was removed.
 
 ## License
 
