@@ -27,7 +27,8 @@
     "uuid": "^13.0.0"
   },
   "overrides": {
-    "swagger-ui-dist": "5.31.0"
+    "swagger-ui-dist": "5.31.0",
+    "hono": "^4.11.4"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
