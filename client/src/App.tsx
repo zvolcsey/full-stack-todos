@@ -36,7 +36,7 @@ export default function App() {
 
   const handleTodoCompletion = (id: string) => {
     const updatedTodos = todos.map((todo) =>
-      id === todo.id ? { ...todo, isCompleted: !todo.isCompleted } : todo
+      id === todo.id ? { ...todo, isCompleted: !todo.isCompleted } : todo,
     );
     setTodos(updatedTodos);
     try {
@@ -82,7 +82,9 @@ export default function App() {
         </section>
       </main>
       <footer>
-        <p>&copy; 2025 Zoltán Völcsey. MIT License.</p>
+        <p>
+          &copy; 2025-{new Date().getFullYear()} Zoltán Völcsey. MIT License.
+        </p>
       </footer>
     </>
   );
