@@ -76,7 +76,7 @@ Api docs available at http://localhost:3000/api-docs/v1
 
 [Server]: Dependency Hygiene
 
-A temporary override was added to patch a vulnerability in Prisma’s internal use of Hono.
+A temporary override was added to patch a vulnerability in Prisma's internal use of Hono.
 Once Prisma shipped their official fix (7.3.0), the override will be removed.
 
 ## License
