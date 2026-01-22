@@ -1,5 +1,4 @@
 import express, { type Request, type Response } from "express";
-import { v4 as uuidv4 } from "uuid";
 import type {
   Todo,
   CreateTodoRequest,
@@ -8,25 +7,9 @@ import type {
   Params,
 } from "../../types/types.js";
 import { ApiError } from "../../utils/utils.js";
+import { prisma } from "../../lib/prisma.js";
 
 const router = express.Router();
-
-const todos: Todo[] = [
-  {
-    id: uuidv4(),
-    title: "Learn TypeScript",
-    isCompleted: false,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
-  {
-    id: uuidv4(),
-    title: "Learn Express",
-    isCompleted: true,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
-];
 
 /**
  * @swagger
@@ -36,10 +19,15 @@ const todos: Todo[] = [
  *    tags: [Todos v1]
  *    responses:
  *      200:
- *        description: A successful response
+ *        $ref: "#/components/responses/GetArrayOfTodos"
+ *      500:
+ *        $ref: "#/components/responses/InternalServerError"
  */
-router.get("/todos", (_req, res: Response<ApiSucessResponse<Todo[]>>) => {
-  return res.status(200).json({ success: true, data: todos });
+router.get("/todos", async (_req, res: Response<ApiSucessResponse<Todo[]>>) => {
+  const data = await prisma.todo.findMany({
+    orderBy: { createdAt: "desc" },
+  });
+  return res.status(200).json({ success: true, data });
 });
 
 /**
@@ -62,24 +50,26 @@ router.get("/todos", (_req, res: Response<ApiSucessResponse<Todo[]>>) => {
  *                example: "Buy groceries"
  *    responses:
  *      201:
- *        description: A successful response
+ *        $ref: "#/components/responses/GetSingleTodo"
+ *      500:
+ *        $ref: "#/components/responses/InternalServerError"
  */
 router.post(
   "/todos",
-  (req: Request<CreateTodoRequest>, res: Response<ApiSucessResponse<Todo>>) => {
+  async (
+    req: Request<CreateTodoRequest>,
+    res: Response<ApiSucessResponse<Todo>>,
+  ) => {
     const { title } = req.body;
 
-    const newTodo = {
-      id: uuidv4(),
-      title,
-      isCompleted: false,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
-    todos.push(newTodo);
+    const newTodo = await prisma.todo.create({
+      data: {
+        title,
+      },
+    });
 
     return res.status(201).json({ success: true, data: newTodo });
-  }
+  },
 );
 
 /**
@@ -108,35 +98,39 @@ router.post(
  *               type: boolean
  *    responses:
  *      200:
- *        description: A successful response
+ *        $ref: "#/components/responses/GetSingleTodo"
  *      404:
- *        description: Not found
+ *        $ref: "#/components/responses/NotFoundTodo"
+ *      500:
+ *        $ref: "#/components/responses/InternalServerError"
  */
 router.patch(
   "/todos/:id",
-  (
+  async (
     req: Request<Params, {}, UpdateTodoRequest>,
-    res: Response<ApiSucessResponse<Todo>>
+    res: Response<ApiSucessResponse<Todo>>,
   ) => {
     const { id } = req.params;
     const { title, isCompleted } = req.body;
 
-    let idx = todos.findIndex((todo) => todo.id === id);
+    let data = await prisma.todo.findUnique({
+      where: { id },
+    });
 
-    if (idx === -1) {
+    if (!data) {
       throw new ApiError(404, "Todo is not found");
     }
 
-    const updatedTodo = {
-      ...todos[idx]!,
-      title: title ?? todos[idx]!.title,
-      isCompleted: isCompleted ?? todos[idx]!.isCompleted,
-      updatedAt: new Date().toISOString(),
-    };
-    todos[idx] = updatedTodo;
+    const updatedTodo = await prisma.todo.update({
+      where: { id },
+      data: {
+        title: title ?? data.title,
+        isCompleted: isCompleted ?? data.isCompleted,
+      },
+    });
 
     return res.status(200).json({ success: true, data: updatedTodo });
-  }
+  },
 );
 
 /**
@@ -153,22 +147,31 @@ router.patch(
  *          type: string
  *    responses:
  *      204:
- *        description: A successful response
+ *        $ref: "#/components/responses/NoContent"
  *      404:
- *        description: Not found
+ *        $ref: "#/components/responses/NotFoundTodo"
+ *      500:
+ *        $ref: "#/components/responses/InternalServerError"
  */
-router.delete("/todos/:id", (req: Request<Params>, res: Response) => {
-  const { id } = req.params;
+router.delete(
+  "/todos/:id",
+  async (req: Request<Params>, res: Response<ApiSucessResponse<null>>) => {
+    const { id } = req.params;
 
-  const idx = todos.findIndex((todo: Todo) => todo.id === id);
+    const data = await prisma.todo.findUnique({
+      where: { id },
+    });
 
-  if (idx === -1) {
-    throw new ApiError(404, "Todo is not found");
-  }
+    if (!data) {
+      throw new ApiError(404, "Todo is not found");
+    }
 
-  todos.splice(idx, 1);
+    await prisma.todo.delete({
+      where: { id },
+    });
 
-  return res.sendStatus(204);
-});
+    return res.status(204).json({ success: true, data: null });
+  },
+);
 
 export default router;

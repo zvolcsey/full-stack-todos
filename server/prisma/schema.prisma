@@ -11,8 +11,8 @@ model Todo {
   id          String      @id @default(uuid())
   title       String
   isCompleted Boolean     @default(false)
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  createdAt   DateTime    @default(now()) @db.Timestamptz(6)
+  updatedAt   DateTime    @updatedAt @db.Timestamptz(6)
 
   @@index([title, createdAt, updatedAt])
 }

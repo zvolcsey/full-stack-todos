@@ -27,7 +27,7 @@ const v1Options: swaggerJsdocs.Options = {
     ],
     components: {
       schemas: {
-        Todo: {
+        SingleTodo: {
           type: "object",
           required: ["title"],
           properties: {
@@ -50,6 +50,108 @@ const v1Options: swaggerJsdocs.Options = {
               format: "date-time",
               readOnly: true,
               example: "2023-10-01T12:00:00Z",
+            },
+          },
+        },
+        SuccessResponseArrayOfTodos: {
+          type: "object",
+          properties: {
+            success: { type: "boolean", example: true },
+            data: {
+              type: "array",
+              items: {
+                $ref: "#/components/schemas/SingleTodo",
+              },
+            },
+          },
+        },
+        SuccessResponseSingleTodo: {
+          type: "object",
+          properties: {
+            success: { type: "boolean", example: true },
+            data: { $ref: "#/components/schemas/SingleTodo" },
+          },
+        },
+        ErrorResponse: {
+          type: "object",
+          properties: {
+            success: { type: "boolean", example: false },
+            error: {
+              type: "object",
+              properties: {
+                status: { type: "integer", example: 404 },
+                message: { type: "string" },
+              },
+            },
+          },
+        },
+      },
+      responses: {
+        GetArrayOfTodos: {
+          description: "List of todos retrieved successfully.",
+          content: {
+            "application/json": {
+              schema: {
+                $ref: "#/components/schemas/SuccessResponseArrayOfTodos",
+              },
+            },
+          },
+        },
+        GetSingleTodo: {
+          description: "A single todo item.",
+          content: {
+            "application/json": {
+              schema: {
+                $ref: "#/components/schemas/SuccessResponseSingleTodo",
+              },
+            },
+          },
+        },
+        NoContent: {
+          description: "No Content",
+          content: {
+            "application/json": {
+              schema: {
+                $ref: "#/components/schemas/SuccessResponse",
+              },
+              example: {
+                success: true,
+                data: null,
+              },
+            },
+          },
+        },
+        NotFoundTodo: {
+          description: "The todo with the specified ID was not found.",
+          content: {
+            "application/json": {
+              schema: {
+                $ref: "#/components/schemas/ErrorResponse",
+              },
+              example: {
+                success: false,
+                error: {
+                  status: 404,
+                  message: "The todo with the specified ID was not found.",
+                },
+              },
+            },
+          },
+        },
+        InternalServerError: {
+          description: "Internal Server Error",
+          content: {
+            "application/json": {
+              schema: {
+                $ref: "#/components/schemas/ErrorResponse",
+              },
+              example: {
+                success: false,
+                error: {
+                  status: 500,
+                  message: "Internal Server Error",
+                },
+              },
             },
           },
         },
