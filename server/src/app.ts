@@ -1,10 +1,19 @@
 import express, { type Application } from "express";
+import cors from "cors";
 
 import todoRoutes from "./routes/v1/todos.js";
 import { setupSwagger } from "./swagger/swagger.js";
 import { errorHandler } from "./middleware/middleware.js";
 
 const app: Application = express();
+
+const corsOptions = {
+  origin: "http://localhost:5173",
+  optionsSuccessStatus: 200,
+  methods: ["GET", "POST", "PATCH", "DELETE"],
+  headers: ["Content-Type"],
+};
+app.use(cors(corsOptions));
 
 app.use(express.json());
 
