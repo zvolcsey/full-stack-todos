@@ -5,7 +5,7 @@ import type {
   UpdateTodoRequest,
   ApiSucessResponse,
   Params,
-} from "../../types/types.js";
+} from "@shared/types";
 import { ApiError } from "../../utils/utils.js";
 import { prisma } from "../../lib/prisma.js";
 

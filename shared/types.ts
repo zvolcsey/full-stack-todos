@@ -13,7 +13,6 @@ export type Todo = {
 
 export type CreateTodoRequest = {
   title: string;
-  isCompleted: boolean;
 };
 
 export type Params = {
